@@ -74,7 +74,7 @@ def getEnergy( pos, vel, mass, G ):
 	# sum over upper triangle, to count each interaction only once
 	PE = G * np.sum(np.sum(np.triu(-(mass*mass.T)*inv_r,1)))
 	
-	return KE, PE;
+	return KE, PE
 
 
 def main():
@@ -97,10 +97,10 @@ def main():
 	np.random.seed(17)            # set the random number generator seed
 	
 	mass = 20.0 * np.ones((N,1)) / N  # total mass of particles is 20
-	pos1  = np.random.randn(N1,3)*0.2 + np.array([0.5,0,0])
-	pos2 =  np.random.randn(N2,3)*0.2 - np.array([0.5,0,0])
-	vel1  = np.random.randn(N1,3)*0.1 + np.array([0.5,0,0])
-	vel2  = np.random.randn(N2,3)*0.1 - np.array([0.5,0,0])
+	pos1  = np.random.randn(N1,3)*0.2 + np.array([1,0,0])
+	pos2 =  np.random.randn(N2,3)*0.2 - np.array([1,0,0])
+	vel1  = np.random.randn(N1,3)*0.1 - np.array([0,0.5,0])
+	vel2  = np.random.randn(N2,3)*0.1 + np.array([0,0.5,0])
 	pos = np.vstack((pos1, pos2))
 	vel = np.vstack((vel1, vel2))
 
@@ -158,17 +158,17 @@ def main():
 				yy = pos_save[:,1,max(i-50,0):i+1]
 				plt.scatter(xx,yy,s=1,color=[.7,.7,1])
 				plt.scatter(pos[:,0],pos[:,1],s=10,color='green')
-				ax1.set(xlim=(-2, 2), ylim=(-2, 2))
+				ax1.set(xlim=(-4, 4), ylim=(-4, 4))
 				ax1.set_aspect('equal', 'box')
-				ax1.set_xticks([-2,-1,0,1,2])
-				ax1.set_yticks([-2,-1,0,1,2])
+				ax1.set_xticks([-4,-3,-2,-1,0,1,2,3,4])
+				ax1.set_yticks([-4,-3,-2,-1,0,1,2,3,4])
 				
 				plt.sca(ax2)
 				plt.cla()
 				plt.scatter(t_all,KE_save,color='red',s=1,label='KE' if i == Nt-1 else "")
 				plt.scatter(t_all,PE_save,color='blue',s=1,label='PE' if i == Nt-1 else "")
 				plt.scatter(t_all,KE_save+PE_save,color='black',s=1,label='Etot' if i == Nt-1 else "")
-				ax2.set(xlim=(0, tEnd), ylim=(-300, 300))
+				ax2.set(xlim=(0, tEnd), ylim=(-1000, 1000))
 				ax2.set_aspect(0.007)
 				
 				plt.pause(0.001)

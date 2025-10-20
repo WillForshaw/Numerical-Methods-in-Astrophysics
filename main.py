@@ -46,37 +46,49 @@ x_r, y_r, z_r = sol_restart.y
 plt.figure(figsize=(7, 4))
 plt.plot(sol.t[mid_index:], x[mid_index:], 'r', label='Full Run (2nd Half)')
 plt.plot(sol_restart.t, x_r, 'k--', label='Restarted Run')
-plt.xlabel('Time')
-plt.ylabel('x(t)')
-plt.title('Lorenz System: x(t) — Full vs Restarted')
+plt.xlabel('Time', fontsize = 16)
+plt.ylabel('x(t)', fontsize = 16)
+plt.xticks(fontsize = 16)
+plt.yticks(fontsize = 16)
+plt.xlim(T/2-10*dt, T/2 + 1500*dt)
+#plt.title('Lorenz System: x(t) — Full vs Restarted')
 plt.legend()
 plt.tight_layout()
+plt.savefig("Restartx.png")
 plt.show()
 
 # y(t)
 plt.figure(figsize=(7, 4))
 plt.plot(sol.t[mid_index:], y[mid_index:], 'g', label='Full Run (2nd Half)')
 plt.plot(sol_restart.t, y_r, 'k--', label='Restarted Run')
-plt.xlabel('Time')
-plt.ylabel('y(t)')
-plt.title('Lorenz System: y(t) — Full vs Restarted')
+plt.xlabel('Time', fontsize = 16)
+plt.ylabel('y(t)', fontsize = 16)
+plt.xticks(fontsize = 16)
+plt.yticks(fontsize = 16)
+plt.xlim(T/2-10*dt, T/2 + 1500*dt)
+#plt.title('Lorenz System: y(t) — Full vs Restarted')
 plt.legend()
 plt.tight_layout()
+plt.savefig("Restarty.png")
 plt.show()
 
 # z(t)
 plt.figure(figsize=(7, 4))
 plt.plot(sol.t[mid_index:], z[mid_index:], 'b', label='Full Run (2nd Half)')
 plt.plot(sol_restart.t, z_r, 'k--', label='Restarted Run')
-plt.xlabel('Time')
-plt.ylabel('z(t)')
-plt.title('Lorenz System: z(t) — Full vs Restarted')
+plt.xlabel('Time', fontsize = 16)
+plt.ylabel('z(t)', fontsize = 16)
+plt.xticks(fontsize = 16)
+plt.yticks(fontsize = 16)
+plt.xlim(T/2-10*dt, T/2 + 1500*dt)
+#plt.title('Lorenz System: z(t) — Full vs Restarted')
 plt.legend()
 plt.tight_layout()
+plt.savefig("Restartz.png")
 plt.show()
 
-
-def Lorenz_sync(t, coords):
+#%%
+def Lorenz_receiver(t, coords):
     # coords = [x, y, z, y_r, z_r]
     x, y, z, y_r, z_r = coords
     o = 10
@@ -95,44 +107,63 @@ def Lorenz_sync(t, coords):
     return [dxdt, dydt, dzdt, dydt_r, dzdt_r]
 
 
-init_coords2 = [1,1,1,2,2]
+init_coords2 = [3,4,1,-10,-6]
 sol_receiver =  solve_ivp(Lorenz_receiver, [0, T], init_coords2, t_eval=t_eval)
 x, y, z, y_r, z_r = sol_receiver.y
-# 1) Compare y and y_r
-# -----------------------------------
+
+
 plt.figure(figsize=(7, 4))
 plt.plot(sol_receiver.t, y, label="Driver y'", color='red')
 plt.plot(sol_receiver.t, y_r, label="Receiver y", color='black', linestyle='--')
-plt.xlabel("Time")
-plt.ylabel("y(t)")
-plt.title("Driver vs Receiver (y-components)")
+plt.xlabel("Time", fontsize = 16)
+plt.ylabel("y(t)", fontsize = 16)
+plt.xticks(fontsize = 16)
+plt.yticks(fontsize = 16)
+plt.xlim(0, sol_receiver.t[500])
+#plt.title("Driver vs Receiver (y-components)")
 plt.legend()
 plt.tight_layout()
+plt.savefig("Drivery.png")
 plt.show()
 
-# -----------------------------------
-# 2) Compare z and z_r
-# -----------------------------------
 plt.figure(figsize=(7, 4))
 plt.plot(sol_receiver.t, z, label="Driver z'", color='blue')
 plt.plot(sol_receiver.t, z_r, label="Receiver z", color='black', linestyle='--')
-plt.xlabel("Time")
-plt.ylabel("z(t)")
-plt.title("Driver vs Receiver (z-components)")
+plt.xlabel("Time", fontsize = 16)
+plt.ylabel("z(t)", fontsize = 16)
+plt.xticks(fontsize = 16)
+plt.yticks(fontsize = 16)
+plt.xlim(0, sol_receiver.t[500])
+#plt.title("Driver vs Receiver (z-components)")
 plt.legend()
 plt.tight_layout()
+plt.savefig("Driverz.png")
 plt.show()
 
-# -----------------------------------
-# 3) Phase-space overlay (optional)
-# -----------------------------------
+plt.figure(figsize=(7, 4))
+plt.plot(sol_receiver.t, x, label="Driver x'", color='blue')
+plt.plot(sol_receiver.t, x, label="Receiver x", color='black', linestyle='--')
+plt.xlabel("Time", fontsize = 16)
+plt.ylabel("x(t)",fontsize = 16)
+plt.xticks(fontsize = 16)
+plt.yticks(fontsize = 16)
+plt.xlim(0, sol_receiver.t[500])
+#plt.title("Driver vs Receiver (x-components)")
+plt.legend()
+plt.tight_layout()
+plt.savefig("Driverx.png")
+plt.show()
+
 plt.figure(figsize=(6, 5))
 plt.plot(y, z, color='r', alpha=0.6, label="Driver")
 plt.plot(y_r, z_r, color='k', alpha=0.6, linestyle='--', label="Receiver")
-plt.xlabel("y")
-plt.ylabel("z")
-plt.title("Synchronization in phase space")
+plt.xlabel("y", fontsize = 16)
+plt.ylabel("z", fontsize = 16)
+plt.xticks(fontsize = 16)
+plt.yticks(fontsize = 16)
+#plt.title("Synchronization y-z plane")
 plt.legend()
 plt.tight_layout()
+plt.savefig("Drivery_z.png")
 plt.show()
 # %%
