@@ -9,6 +9,7 @@ Philip Mocz (2020) Princeton Univeristy, @PMocz
 Simulate the structure of a star with SPH
 """
 
+
 def W( x, y, z, h ):
 	"""
     Gausssian Smoothing kernel (3D)
@@ -135,7 +136,7 @@ def getAcc( pos, vel, m, h, k, n, lmbda, nu ):
 	dWx, dWy, dWz = gradW( dx, dy, dz, h )
 	
 	# Add Pressure contribution to accelerations
-	ax = - np.sum( m * ( P/rho**2 + P.T/rho.T**2  ) * dWx, 1).reshape((N,1))
+	ax = - np.sum( m * ( P/rho**2 + P.T/rho.T**2  ) * dWx, 1).reshape((N,1))+3
 	ay = - np.sum( m * ( P/rho**2 + P.T/rho.T**2  ) * dWy, 1).reshape((N,1))
 	az = - np.sum( m * ( P/rho**2 + P.T/rho.T**2  ) * dWz, 1).reshape((N,1))
 	
@@ -166,8 +167,9 @@ def main():
 	k         = 0.1    # equation of state constant
 	n         = 1      # polytropic index
 	nu        = 1      # damping
-	plotRealTime = True # switch on for plotting as the simulation goes along
-	
+	plotRealTime = False # switch on for plotting as the simulation goes along
+	com_pos = []
+	com_vel = []
 	# Generate Initial Conditions
 	np.random.seed(42)            # set the random number generator seed
 	
@@ -211,7 +213,12 @@ def main():
 		
 		# get density for plotting
 		rho = getDensity( pos, pos, m, h )
-		
+		# Track centre of mass position and velocity
+		x_com = np.mean(pos[:, 0])
+		vx_com = np.mean(vel[:, 0])
+		com_pos.append(x_com)
+		com_vel.append(vx_com)
+
 		# plot in real time
 		if plotRealTime or (i == Nt-1):
 			plt.sca(ax1)
@@ -240,15 +247,28 @@ def main():
 	plt.sca(ax2)
 	plt.xlabel('radius')
 	plt.ylabel('density')
-	
-	# Save figure
-	plt.savefig('sph.png',dpi=240)
+	# Plot COM motion
+
+
+	plt.figure(figsize=(6,4))
+	plt.subplot(2,1,1)
+	plt.plot(np.arange(Nt)*dt, com_pos, label='x_COM')
+	plt.ylabel('Centre of Mass Position')
+	plt.xlabel('Time')
+	plt.legend()
+	plt.savefig('COM_motion')
+	plt.tight_layout()
+	plt.grid(True)
 	plt.show()
-	    
+
+		
 	return 0
 	
+		
 
 
   
 if __name__== "__main__":
   main()
+
+
