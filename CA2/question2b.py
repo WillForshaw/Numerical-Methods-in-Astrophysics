@@ -209,7 +209,6 @@ plt.plot(r_mid, king_profile(r_mid, *popt), 'r-', lw=2,
 plt.yscale('log')
 plt.xlabel('Radius $r$')
 plt.ylabel('Number density $n(r)$')
-#plt.title('Star Cluster Density Profile with King Model Fit')
 plt.legend(fontsize=8)
 plt.grid(True, alpha=0.3)
 plt.tight_layout()
